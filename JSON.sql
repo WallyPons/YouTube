@@ -66,7 +66,8 @@ SELECT Top 2 Id, ProcessDate, ProductJson,
 	-- This portion reads from the JSON's list by position
 	JSON_VALUE(ProductJson, '$.Composition[0]') AS Composition0,
 	JSON_VALUE(ProductJson, '$.Composition[1]') AS Composition1,
-	JSON_VALUE(ProductJson, '$.Composition[2]') AS Composition2
+	JSON_VALUE(ProductJson, '$.Composition[2]') AS Composition2,
+	JSON_VALUE(ProductJson, '$.Composition[3]') AS Composition3
 FROM #ProductData;
 
 -- 6. For MongoDB Shell (add)
