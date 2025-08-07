@@ -60,7 +60,8 @@ FROM products;
 
 -- Performance tip
 CREATE INDEX idx_prodcode ON products ((Product_JSON ->> 'ProdCode'));
-
+CREATE INDEX idx_prodcode_name ON products ((Product_JSON ->> 'ProdName'));
+CREATE INDEX idx_product_keys ON products ((product_json ->> 'ProdCode'), (product_json ->> 'ProdName'), (product_json -> 'Lab' ->> 'Name'));
 -- Second insert
 insert into public.products (Product_JSON) values ('{
     "ProdCode": "8B1E78F8-6252-435B-A801-2CC3C2E45F77",
@@ -90,4 +91,5 @@ SELECT
     (Product_JSON -> 'Lab') ->> 'Email'    AS lab_email,
     -- This portion converts the array (or list) to multiple rows
     jsonb_array_elements_text(Product_JSON -> 'Composition') AS composition_items
+
 FROM products;
