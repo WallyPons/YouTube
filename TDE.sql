@@ -176,4 +176,40 @@ FROM sys.certificates AS c
     LEFT JOIN sys.databases AS db
         ON dek.database_id = db.database_id
 WHERE dek.encryptor_type = 'CERTIFICATE'
+
 ORDER BY CertificateName;
+-- Table
+
+USE [TDE_DEMO]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [TDE_DEMO].[dbo].[TDE_Logs](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[GUIDMarker] [uniqueidentifier] NULL,
+	[TimeMarker] [time](0) NULL,
+	[ProcessMarker] [int] NULL,
+	[ManualGUID] [uniqueidentifier] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TDE_Logs] ADD  DEFAULT (newid()) FOR [GUIDMarker]
+GO
+
+ALTER TABLE [dbo].[TDE_Logs] ADD  DEFAULT (getdate()) FOR [TimeMarker]
+GO
+
+ALTER TABLE [dbo].[TDE_Logs] ADD  DEFAULT (@@spid) FOR [ProcessMarker]
+GO
+
+INSERT INTO [TDE_DEMO].[dbo].[TDE_Logs] (ManualGUID) Values (Newid())
+GO 1000
