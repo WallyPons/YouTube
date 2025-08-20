@@ -1,3 +1,28 @@
+/*
+TDE, or Transparent Data Encryption, is a security feature that encrypts data at rest in databases. 
+It's used to protect sensitive information stored on disk, including database files, backups, and 
+transaction logs by encrypting them before they are written to storage and decrypting them when accessed. 
+
+A more detailed explanation in features includes:
+
+Encryption at Rest:
+TDE encrypts data while it's stored on the database server's hard drive or other storage media, making it 
+unreadable to unauthorized users who might try to access the files directly. 
+
+Real-time Encryption/Decryption:
+TDE performs encryption and decryption operations on the fly as data is written to and read from the 
+database without requiring changes to the application using the database. 
+
+Key Management:
+TDE relies on encryption keys to secure the data. These keys are typically stored separately from the encrypted 
+data to further enhance security. 
+
+Compliance:
+TDE can help organizations meet various regulatory requirements, such as PCI DSS, HIPAA, and GDPR which mandate 
+the protection of sensitive data. 
+*/
+
+
 -- 1. Before enabling TDE, check if the database is already encrypted:
 -- Note: DO NOT RUN THIS ON A PRODUCTION ENVIRONMENT, ALWAYS RUN IN TEST OR STAGING FIRST
 SELECT name, is_encrypted 
@@ -99,7 +124,7 @@ STATS = 1
 
 -- Error message:
 /* 
-
+Locate and compare the SHA-1 hash of the certificate (thumbprint)
 
 */
 
@@ -139,7 +164,7 @@ Order by NEWID() ASC;
 USE master;
 GO
 
--- List all DMKs
+-- List all Database Master Keys
 SELECT 
 	d.name AS DatabaseName,
     d.is_master_key_encrypted_by_server AS IsEncryptedByServiceMasterKey,
@@ -176,8 +201,36 @@ FROM sys.certificates AS c
     LEFT JOIN sys.databases AS db
         ON dek.database_id = db.database_id
 WHERE dek.encryptor_type = 'CERTIFICATE'
-
 ORDER BY CertificateName;
+
+-- Drop all
+-- 1
+USE [master]
+GO
+ALTER DATABASE [TDE_DEMO]
+SET ENCRYPTION OFF;
+GO
+
+-- 2
+USE [TDE_DEMO];
+GO
+DROP DATABASE ENCRYPTION KEY;
+GO
+
+-- 3
+USE [master];
+GO
+DROP CERTIFICATE TDE_Cert;
+GO
+
+-- 4
+USE [master];
+GO
+DROP MASTER KEY;
+GO
+
+
+
 -- Table
 
 USE [TDE_DEMO]
