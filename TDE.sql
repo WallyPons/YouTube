@@ -115,7 +115,7 @@ WITH COMPRESSION, FORMAT, INIT, STATS = 1;
 
 -- 8. Switch instance, copy backup, cert and private key to a location accesible to the instance
 
--- 9. Attemp restore to test database security, copy and paste error below:
+-- 9. Attempt restore to test database security, copy and paste error below:
 RESTORE DATABASE [TDE_DEMO] FROM DISK = N'D:\MSSQL.EUCLID\BACKUP\TDE_DEMO_FULL.BAK'
 WITH
 MOVE 'TDE_DEMO' TO 'D:\MSSQL.EUCLID\USERDATABASE\DATA\TDE_DEMO.mdf',
@@ -266,3 +266,4 @@ GO
 
 INSERT INTO [TDE_DEMO].[dbo].[TDE_Logs] (ManualGUID) Values (Newid())
 GO 1000
+
