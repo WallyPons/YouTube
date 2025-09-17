@@ -56,6 +56,8 @@ ORDER BY
     d.name;
 
 
+
+-- Create DMK
 USE [master];
 GO
 CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'xPU8jJzUA6n0Zoa2iyRA';
@@ -130,25 +132,25 @@ GO
 USE [master];
 GO
 BACKUP CERTIFICATE [TDE_Cert]
-TO FILE = 'J:\MSSQL\BACKUP\TDE_Cert.bak'
+TO FILE = 'Z:\MSSQL\BACKUP\TDE_Cert.bak'
 WITH PRIVATE KEY (
-    FILE = 'J:\MSSQL\BACKUP\TDE_Cert_Key.pvk',
+    FILE = 'Z:\MSSQL\BACKUP\TDE_Cert_Key.pvk',
     ENCRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
 
 BACKUP CERTIFICATE [TDE_Cert_2]
-TO FILE = 'J:\MSSQL\BACKUP\TDE_Cert_2.bak'
+TO FILE = 'Z:\MSSQL\BACKUP\TDE_Cert_2.bak'
 WITH PRIVATE KEY (
-    FILE = 'J:\MSSQL\BACKUP\TDE_Cert_2_Key.pvk',
+    FILE = 'Z:\MSSQL\BACKUP\TDE_Cert_2_Key.pvk',
     ENCRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
 
 BACKUP CERTIFICATE [TDE_Cert_3]
-TO FILE = 'J:\MSSQL\BACKUP\TDE_Cert_3.bak'
+TO FILE = 'Z:\MSSQL\BACKUP\TDE_Cert_3.bak'
 WITH PRIVATE KEY (
-    FILE = 'J:\MSSQL\BACKUP\TDE_Cert_3_Key.pvk',
+    FILE = 'Z:\MSSQL\BACKUP\TDE_Cert_3_Key.pvk',
     ENCRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
@@ -168,38 +170,40 @@ To test the certificate:
 */
 
 -- 7. Backup TDE_DEMO on default instance
-BACKUP DATABASE [TDE_DEMO] TO DISK = N'J:\MSSQL\BACKUP\TDE_DEMO_FULL.BAK'
+BACKUP DATABASE [TDE_DEMO] TO DISK = N'Z:\MSSQL\BACKUP\TDE_DEMO_FULL.BAK'
 WITH COMPRESSION, FORMAT, INIT, STATS = 1;
 
-BACKUP DATABASE [TDE_DEMO_2] TO DISK = N'J:\MSSQL\BACKUP\TDE_DEMO_2_FULL.BAK'
+BACKUP DATABASE [TDE_DEMO_2] TO DISK = N'Z:\MSSQL\BACKUP\TDE_DEMO_2_FULL.BAK'
 WITH COMPRESSION, FORMAT, INIT, STATS = 1;
 
-BACKUP DATABASE [TDE_DEMO_3] TO DISK = N'J:\MSSQL\BACKUP\TDE_DEMO_3_FULL.BAK'
+BACKUP DATABASE [TDE_DEMO_3] TO DISK = N'Z:\MSSQL\BACKUP\TDE_DEMO_3_FULL.BAK'
 WITH COMPRESSION, FORMAT, INIT, STATS = 1;
 
 
 -- 8. Switch instance, copy backup, cert and private key to a location accesible to the instance
 
 -- 9. Attemp restore to test database security, copy and paste error below:
-RESTORE DATABASE [TDE_DEMO] FROM DISK = N'D:\MSSQL.EUCLID\BACKUP\TDE_DEMO_FULL.BAK'
-WITH --REPLACE, 
-MOVE 'TDE_DEMO' TO 'D:\MSSQL.EUCLID\USERDATABASE\DATA\TDE_DEMO.mdf',
-MOVE 'TDE_DEMO_Log' TO 'D:\MSSQL.EUCLID\USERDATABASE\LOGS\TDE_DEMO_log.ldf',
+RESTORE DATABASE [TDE_DEMO] FROM DISK = N'Z:\MSSQL.TDETEST\BACKUP\TDE_DEMO_FULL.BAK'
+WITH --REPLACE, -- THUMBPRINT: 
+MOVE 'TDE_DEMO' TO 'F:\MSSQL.TDETEST\USERDATABASE\DATA\TDE_DEMO.mdf',
+MOVE 'TDE_DEMO_Log' TO 'G:\MSSQL.TDETEST\USERDATABASE\LOGS\TDE_DEMO_log.ldf',
 STATS = 1
 
 -- TDE_DEMO_2
-RESTORE DATABASE [TDE_DEMO_2] FROM DISK = N'D:\MSSQL.EUCLID\BACKUP\TDE_DEMO_2_FULL.BAK'
-WITH -- REPLACE, 
-MOVE 'TDE_DEMO_2' TO 'D:\MSSQL.EUCLID\USERDATABASE\DATA\TDE_DEMO_2.mdf',
-MOVE 'TDE_DEMO_2_Log' TO 'D:\MSSQL.EUCLID\USERDATABASE\LOGS\TDE_DEMO_2_log.ldf',
+RESTORE DATABASE [TDE_DEMO_2] FROM DISK = N'Z:\MSSQL.TDETEST\BACKUP\TDE_DEMO_2_FULL.BAK'
+WITH -- REPLACE, -- THUMBPRINT: 
+MOVE 'TDE_DEMO_2' TO 'F:\MSSQL.TDETEST\USERDATABASE\DATA\TDE_DEMO_2.mdf',
+MOVE 'TDE_DEMO_2_Log' TO 'G:\MSSQL.TDETEST\USERDATABASE\LOGS\TDE_DEMO_2_log.ldf',
 STATS = 1
 
 -- TDE_DEMO_3
-RESTORE DATABASE [TDE_DEMO_3] FROM DISK = N'D:\MSSQL.EUCLID\BACKUP\TDE_DEMO_3_FULL.BAK'
-WITH -- REPLACE, 
-MOVE 'TDE_DEMO_3' TO 'D:\MSSQL.EUCLID\USERDATABASE\DATA\TDE_DEMO_3.mdf',
-MOVE 'TDE_DEMO_3_Log' TO 'D:\MSSQL.EUCLID\USERDATABASE\LOGS\TDE_DEMO_3_log.ldf',
+RESTORE DATABASE [TDE_DEMO_3] FROM DISK = N'Z:\MSSQL.TDETEST\BACKUP\TDE_DEMO_3_FULL.BAK'
+WITH -- REPLACE, -- THUMBPRINT: 
+MOVE 'TDE_DEMO_3' TO 'F:\MSSQL.TDETEST\USERDATABASE\DATA\TDE_DEMO_3.mdf',
+MOVE 'TDE_DEMO_3_Log' TO 'G:\MSSQL.TDETEST\USERDATABASE\LOGS\TDE_DEMO_3_log.ldf',
 STATS = 1
+
+
 
 -- Error message:
 /* 
@@ -218,30 +222,30 @@ GO
 USE [master]
 GO
 CREATE CERTIFICATE [TDE_Cert]
-FROM FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert.bak'
+FROM FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert.bak'
 WITH PRIVATE KEY (
-    FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert_Key.pvk',
+    FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert_Key.pvk',
     DECRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
 
 CREATE CERTIFICATE [TDE_Cert_2]
-FROM FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert_2.bak'
+FROM FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert_2.bak'
 WITH PRIVATE KEY (
-    FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert_2_Key.pvk',
+    FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert_2_Key.pvk',
     DECRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
 
 CREATE CERTIFICATE [TDE_Cert_3]
-FROM FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert_3.bak'
+FROM FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert_3.bak'
 WITH PRIVATE KEY (
-    FILE = 'D:\MSSQL.EUCLID\BACKUP\TDE_Cert_3_Key.pvk',
+    FILE = 'Z:\MSSQL.TDETEST\BACKUP\TDE_Cert_3_Key.pvk',
     DECRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
 );
 GO
 
--- 11. Query some data from TDE_DEMO
+-- 11. Query some data from TDE_logs
 Select Top 10
     CASE
         WHEN SERVERPROPERTY('InstanceName') IS NULL THEN
@@ -286,12 +290,12 @@ SELECT dek.create_date,
        dek.encryption_scan_modify_date,
        dek.encryption_scan_state,
        dek.encryption_scan_state_desc,
+       db.name AS EncryptedDatabase,
        c.name AS CertificateName,
        c.subject,
        c.start_date,
        c.expiry_date,
-       c.thumbprint,
-       db.name AS EncryptedDatabase
+       c.thumbprint
 FROM sys.certificates AS c
     LEFT JOIN sys.dm_database_encryption_keys AS dek
         ON c.thumbprint = dek.encryptor_thumbprint
@@ -302,17 +306,18 @@ ORDER BY CertificateName;
 
 -- Table
 /*
-Run on default instance to create databases:
+Run on default instance:
 CREATE DATABASE [TDE_DEMO];
 GO
+
 CREATE DATABASE [TDE_DEMO_2];
 GO
+
 CREATE DATABASE [TDE_DEMO_3];
 GO
 */
 
 
--- Create sample table and populate, change the DB connection and scope
 USE [TDE_DEMO]
 GO
 
@@ -344,12 +349,10 @@ GO
 ALTER TABLE [dbo].[TDE_Logs] ADD  DEFAULT (@@spid) FOR [ProcessMarker]
 GO
 
--- Don't forget to change the database scope:	
 INSERT INTO [TDE_DEMO].[dbo].[TDE_Logs] (ManualGUID) Values (Newid())
 GO 1000
 
 /*
--- Drop all databases
 DROP DATABASE [TDE_DEMO];
 GO
 DROP DATABASE [TDE_DEMO_2];
@@ -358,91 +361,77 @@ DROP DATABASE [TDE_DEMO_3];
 GO
 */
 
--- Additional Scripts
+-- Certificate rotation (crypto hygiene)
+/*
+1. Create a new certificate.
+2. Backup the new certificate + private key securely.
+3. ALTER DATABASE ENCRYPTION KEY to use the new certificate.
+4. Drop the old certificate only when you’re sure no backups still depend on it.
+*/
 
-       dek.key_algorithm,
-       dek.key_length,
-       dek.encryption_state,
-       dek.encryption_state_desc,
-       dek.encryption_scan_modify_date,
-       dek.encryption_scan_state,
-       dek.encryption_scan_state_desc,
-       c.name AS CertificateName,
-       c.subject,
-       c.start_date,
-       c.expiry_date,
-       c.thumbprint
-FROM sys.certificates AS c
-    LEFT JOIN sys.dm_database_encryption_keys AS dek
-        ON c.thumbprint = dek.encryptor_thumbprint
-    LEFT JOIN sys.databases AS db
-        ON dek.database_id = db.database_id
-WHERE dek.encryptor_type = 'CERTIFICATE'
-ORDER BY CertificateName;
+-- 1. Create new certificate process:
+/*
+WARNING: Must run on primary server first
+Many organizations (e.g., PCI DSS, HIPAA, ISO 27001) require key rotation at defined intervals.
+Using an expired certificate might fail an audit, even if SQL Server doesn’t care. :)
+*/
 
--- Drop all
--- 1
-USE [master]
-GO
-ALTER DATABASE [TDE_DEMO]
-SET ENCRYPTION OFF;
-GO
-
-ALTER DATABASE [TDE_DEMO_2]
-SET ENCRYPTION OFF;
-GO
-
-ALTER DATABASE [TDE_DEMO_3]
-SET ENCRYPTION OFF;
-GO
-
--- 2
-USE [TDE_DEMO];
-GO
-DROP DATABASE ENCRYPTION KEY;
-GO
-
-USE [TDE_DEMO_2];
-GO
-DROP DATABASE ENCRYPTION KEY;
-GO
-
-USE [TDE_DEMO_3];
-GO
-DROP DATABASE ENCRYPTION KEY;
-GO
--- 3
-USE [master];
-GO
-DROP CERTIFICATE TDE_Cert;
-GO
-
-USE [master];
-GO
-DROP CERTIFICATE TDE_Cert_2;
-GO
-
-USE [master];
-GO
-DROP CERTIFICATE TDE_Cert_3;
-GO
--- 4
-USE [master];
-GO
-DROP MASTER KEY;
-GO
-
--- Sample certification rotation for when they expire
--- 1. In master, create a new certificate
 USE master;
-CREATE CERTIFICATE TDE_Cert_2025
-  WITH SUBJECT = 'TDE rotation 2025';
+GO
+CREATE CERTIFICATE TDECert_2030
+  WITH SUBJECT = 'TDE Protector 2030',
+       EXPIRY_DATE = '2030-12-31';   -- optional, metadata only
+GO
 
--- 2. In the user DB, re-encrypt DEK by the new cert
+-- Back it up immediately (public + private key)
+BACKUP CERTIFICATE TDECert_2030
+  TO FILE = 'D:\KMSafe\TDECert_2030.cer'
+  WITH PRIVATE KEY (
+       FILE = 'D:\KMSafe\TDECert_2030.pvk',
+       ENCRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
+  );
+GO
+
+-- 2. Install the new certificate
+
+-- Run on each secondary instance:
+USE master;
+GO
+CREATE CERTIFICATE TDECert_2030
+  FROM FILE = 'D:\KMSafe\TDECert_2030.cer'
+  WITH PRIVATE KEY (
+       FILE = 'D:\KMSafe\TDECert_2030.pvk',
+       DECRYPTION BY PASSWORD = 'Cv3IlfYRPzuLdzypHxCN'
+  );
+GO
+
+-- 3. Rotate certificate
+-- For each TDE-enabled database (repeat per DB)
 USE [TDE_DEMO];
+GO
 ALTER DATABASE ENCRYPTION KEY
-ENCRYPTION BY SERVER CERTIFICATE TDE_Cert_2025;
+  ENCRYPTION BY SERVER CERTIFICATE TDECert_2030;
+GO
 
--- 2. (Optional) Drop the old cert after verifying backups are usable
+-- Validate rotation
+-- Confirm encryptor changed to the new certificate
+-- Note: This is a shorter version from "List certificates" script
+SELECT d.name,
+       c.name AS certificate_name,
+       c.thumbprint,
+       dek.encryption_state
+FROM sys.dm_database_encryption_keys dek
+    JOIN sys.databases d
+        ON d.database_id = dek.database_id
+    LEFT JOIN master.sys.certificates c
+        ON dek.encryptor_thumbprint = c.thumbprint
+WHERE d.name = 'YourTDEdb';
+
+-- Take a fresh database backup
+
+-- 4. Only when sure, drop old certificate
+-- Primary and every secondary in a consistent way
 USE master;
-DROP CERTIFICATE TDE_Cert; -- only when safe
+DROP CERTIFICATE TDE_Cert
+DROP CERTIFICATE TDE_Cert_2
+DROP CERTIFICATE TDE_Cert_3;
