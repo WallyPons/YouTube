@@ -46,5 +46,5 @@ If you find a bug or want to suggest an enhancement, feel free to:
 
 ---
 
-Thank you for checking out the repo.  
+Thank you for checking out my chanel's repo.  
 **– Wally Pons**
