@@ -1,4 +1,4 @@
-﻿/*
+/*
 1. Create tables and inserts for demo purposes: 20 - 255
 2. Create SQL Login: 259
 3. Tools: 278
@@ -7,7 +7,7 @@
 6. Other permissions/Revoke: 360
 7. List Logins: 381
 8. Recreate Logins: 402
-9. Drop user / login: 433
+9. Drop user / login: 438
 */
 
 
@@ -405,26 +405,34 @@ SELECT
     sp.name AS LoginName,
     sp.type_desc AS LoginType,
     sl.password_hash AS PasswordHash,
+    ISNULL(STRING_AGG(roles.name, ', '), 'None') AS ServerRoles,
     CASE 
         WHEN sp.type = 'S' THEN 
-            'USE [master] 
+            'USE [master]; 
              CREATE LOGIN [' + sp.name + '] 
              WITH PASSWORD = ' + CONVERT(varchar(max), sl.password_hash, 1) + ' HASHED, 
              SID = ' + CONVERT(varchar(max), sp.sid, 1) + ', 
-             CHECK_POLICY = OFF, CHECK_EXPIRATION = OFF' 
+             CHECK_POLICY = OFF, CHECK_EXPIRATION = OFF;' 
         WHEN sp.type IN ('U','G') THEN 
-            'USE [master] 
+            'USE [master]; 
              CREATE LOGIN [' + sp.name + '] 
              FROM WINDOWS 
-             WITH SID = ' + CONVERT(varchar(max), sp.sid, 1)
+             WITH SID = ' + CONVERT(varchar(max), sp.sid, 1) + ';'
     END AS CreateLoginScript
 FROM sys.server_principals AS sp
 LEFT JOIN sys.sql_logins AS sl
     ON sp.principal_id = sl.principal_id
+LEFT JOIN sys.server_role_members AS srm
+    ON sp.principal_id = srm.member_principal_id
+LEFT JOIN sys.server_principals AS roles
+    ON srm.role_principal_id = roles.principal_id
 WHERE sp.type IN ('S', 'U', 'G')   -- SQL logins + Windows users + groups
-  AND sp.name NOT LIKE '%#%'       -- Exclude certificates, etc.
-  AND sp.name NOT LIKE '##%'       -- Exclude internal system accounts
+  AND sp.name NOT LIKE '%#%'       -- Exclude temporary principals
+  AND sp.name NOT LIKE '##%'       -- Exclude system/internal logins
+GROUP BY 
+    sp.sid, sp.name, sp.type, sp.type_desc, sl.password_hash
 ORDER BY sp.name;
+
 
 -- 9. Drop User / Login
 USE [CorporateData_East1];
