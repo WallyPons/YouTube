@@ -21,7 +21,7 @@ Subscribe to stay updated on:
 These are the **exact scripts** I use in videos — shared to help you follow along, test on your own environments, or adapt for your daily DBA tasks.
 
 Each script:
-- Is tested on **Microsoft SQL Server** (mostly 2016+)
+- Is tested on **Microsoft SQL Server** (mostly 2019+)
 - May include notes if relevant for MongoDB, PostgreSQL, AWS, Azure or MySQL
 - May include dummy/sample data where useful
 
