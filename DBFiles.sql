@@ -26,6 +26,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY db_name()) AS Id,
 
 FROM 
     dbo.sysfiles AS sf
-INNER JOIN 
+LEFT JOIN 
     dbo.sysfilegroups AS fg 
     ON sf.groupid = fg.groupid;
+
