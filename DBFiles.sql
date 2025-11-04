@@ -38,9 +38,10 @@ SELECT ROW_NUMBER() OVER (ORDER BY db_name()) AS Id,
 
 	name as [Device Name],
 	physical_name as [Physical Name],
-	CONVERT (Decimal(15,2) ,ROUND(size/1024.000,2))*8 as [Current Size (MB)] ,
-	CONVERT (Decimal(15,2) ,ROUND(max_size/1024.000,2))*8 as [Max Size (MB)] 
-	
+	CONVERT (Decimal(15,2) ,ROUND(size/1024.000,2))*8 as [Current Size (MB)],
+	CONVERT (Decimal(15,2) ,ROUND(max_size/1024.000,2))*8 as [Max Size (MB)], 
+	CONVERT (Decimal(15,2) ,ROUND(max_size/1024.000,2))*8 - CONVERT (Decimal(15,2) ,ROUND(size/1024.000,2))*8 as [Available size (MB)]
 
 From sys.database_files
 Where type = 2;
+
