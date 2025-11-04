@@ -4,6 +4,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY db_name()) AS Id,
        --Cast(CURRENT_TIMESTAMP AS [DATE]) as ProcessDate,
        --Cast(CURRENT_TIMESTAMP AS [TIME]) as ProcessTime,
 	   Convert(varchar, getdate(), 9) as TimeStamp,
+       fg.groupname as 'Filegroup',
        Name as 'Logical Name',
        filename as 'File Name',
        CONVERT(Decimal(18, 2), ROUND(Size / 128.000, 2)) AS [Curr. Alloc. Space (MB)],
@@ -22,5 +23,9 @@ SELECT ROW_NUMBER() OVER (ORDER BY db_name()) AS Id,
        (CONVERT(Decimal(18, 2), ROUND((Size - FILEPROPERTY(Name, 'SpaceUsed')) / 128.000, 2))
         / CONVERT(Decimal(18, 2), ROUND(Size / 128.000, 2)) * 100
        ) as [Perc. Avail.]
-FROM dbo.sysfiles
-GO
+
+FROM 
+    dbo.sysfiles AS sf
+INNER JOIN 
+    dbo.sysfilegroups AS fg 
+    ON sf.groupid = fg.groupid;
