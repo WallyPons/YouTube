@@ -30,3 +30,17 @@ LEFT JOIN
     dbo.sysfilegroups AS fg 
     ON sf.groupid = fg.groupid;
 
+-- Filestreams only
+SELECT ROW_NUMBER() OVER (ORDER BY db_name()) AS Id,
+       @@servername as ServerName,
+       db_name() as DatabaseName,
+       Convert(varchar, getdate(), 9) as TimeStamp,
+
+	name as [Device Name],
+	physical_name as [Physical Name],
+	CONVERT (Decimal(15,2) ,ROUND(size/1024.000,2))*8 as [Current Size (MB)] ,
+	CONVERT (Decimal(15,2) ,ROUND(max_size/1024.000,2))*8 as [Max Size (MB)] 
+	
+
+From sys.database_files
+Where type = 2;
