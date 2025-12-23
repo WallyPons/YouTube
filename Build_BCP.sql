@@ -14,18 +14,18 @@ DECLARE @DestinationDB as varchar(128)
 DECLARE @BCPOptions as varchar(128)
 
 -- Variable values
-SET @FPath = 'C:\BCP\StackOverflow2010\FormatFile' -- Format file path
-SET @FExtension = 'fmt' -- Format file extension
-SET @SQLcred = '-S"." -T' -- SQL Server credentials
-SET @QOSelect = 'Select' -- Select statement portion can use TOP n if needed
-SET @BCPpath = 'C:\BCP\StackOverflow2010\QueryOut' -- BCP files path
-SET @BCPExtension = 'dat' -- BCP file extension
-SET @BCPLogOut = 'C:\BCP\StackOverflow2010\Log\Out' -- Export log files
-SET @BCPLogIn = 'C:\BCP\StackOverflow2010\Log\In' -- Import log files
-SET @BCPLogOutextension = 'log' -- File extension for the OUT log
-SET @BCPLogInextension = 'log' -- File extension for the IN log
-SET @DestinationDB = 'StackOverflow2010New' -- Target database
-SET @BCPOptions = '-N -E -b 100000' -- Aside from the options, you can set the batch size
+SET @FPath = 'C:\BCP\DB_SOPORTE_IT\FormatFile'              -- Format file path
+SET @FExtension = 'fmt'                                     -- Format file extension
+SET @SQLcred = '-S"." -T'                                   -- SQL Server credentials (-S server name, -T trusted connection)
+SET @QOSelect = 'Select'                                    -- Select statement portion can use TOP n if needed
+SET @BCPpath = 'C:\BCP\DB_SOPORTE_IT\QueryOut'              -- BCP files path
+SET @BCPExtension = 'dat'                                   -- BCP file extension
+SET @BCPLogOut = 'C:\BCP\DB_SOPORTE_IT\Log\Out'             -- Export log files
+SET @BCPLogIn = 'C:\BCP\DB_SOPORTE_IT\Log\In'               -- Import log files
+SET @BCPLogOutextension = 'log'                             -- File extension for the OUT log
+SET @BCPLogInextension = 'log'                              -- File extension for the IN log
+SET @DestinationDB = 'DB_SOPORTE_ITNew'                     -- Target database
+SET @BCPOptions = '-N -E -b 100000'                         -- Aside from the options (-N keep non-text native, -E keep identity values), you can set the batch size (-b)
 
 -- If you need to create the folders from SQL
 /*
@@ -57,7 +57,11 @@ SET @BCPLogIn = CASE
                 ELSE @BCPLogIn 
              END;
 
--- Query to generate format files, export and import scripts. Theses must be put in a batch file for later execution.
+/* 
+Query to generate format files, export and import scripts. 
+Theses must be put in a batch file for later execution.
+*/
+
 ;
 With CTE_Cols
 AS (SELECT db_name() AS Dbname,
@@ -86,5 +90,5 @@ Select Dbname,
        + @FExtension + '" -o "' + @BCPLogIn + '\' + schema_name + '_' + TABLE_NAME + '.' + @BCPLogInextension + '" '
        + @BCPOptions + ' ' + @SQLcred AS ImportBCP
 From CTE_Cols
--- Where TABLE_NAME = 'Blah' -- You can filter by one table, if needed.
+-- Where TABLE_NAME = '?' -- You can filter by one table, if needed.
 Order By TABLE_NAME ASC;
