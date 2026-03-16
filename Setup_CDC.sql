@@ -156,7 +156,13 @@ threshold:         @threshold       (Cleanup only) Maximum delete entries in a s
 
 -- d. Example: Set retention to 5 days (5 * 24 * 60 = 7,200 minutes)
 EXECUTE sys.sp_cdc_change_job @job_type = N'cleanup', @retention = 7200;
-
+-- e. Increase capture transactions
+EXECUTE sys.sp_cdc_change_job @job_type = N'capture', @maxtrans = 15000;
+GO
+-- f. Restart jobs for changes to take effect
+EXECUTE sys.sp_cdc_stop_job @job_type = N'capture'
+EXECUTE sys.sp_cdc_start_job @job_type = N'capture'
+GO
 -- 6. CDC Operations
 -- a. INSERT
 INSERT INTO [CorporateData_East1].[dbo].[SamplePeople] 
