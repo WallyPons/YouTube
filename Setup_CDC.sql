@@ -322,3 +322,12 @@ USE [CorporateData_East1]
 GO
 EXEC sys.sp_cdc_disable_db;
 GO
+
+/*
+Notes:
+1. Always check your database latency
+2. Make sure your Tempdb is properly configured/sized
+3. SQL Memory settings must be optimal
+4. The "Cost threshold for parallelism" must be > 5
+5. When possible, use filegroups/files to store CDC table data
+*/
