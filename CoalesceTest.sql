@@ -7,7 +7,7 @@ CREATE TABLE #COALESCE_TEST
     ProdCode VARCHAR(21)
         DEFAULT (CONVERT(VARCHAR(4), YEAR(GETDATE())) 
                     + '-' + LEFT(NEWID(), 8) 
-                    + RIGHT(newid(), 8)),
+                    + RIGHT(NEWID(), 8)),
     ProdName VARCHAR(20),
     ProdPrice DECIMAL(12, 2)
 );
