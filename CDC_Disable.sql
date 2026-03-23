@@ -5,7 +5,7 @@ EXEC sys.sp_cdc_disable_db;
 GO
 
 /*
-When youn this command it will remove:
+When you runn this command, it will remove:
 a. All CDC based tables (may take a few seconds)
 b. CDC_Admin role
 c. All CDC jobs (Capture / Cleanup)
