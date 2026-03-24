@@ -2,7 +2,7 @@
 
 *********************************
 **** Repair Suspect Database ****
-****   usign only 6 steps    ****
+****   using only 6 steps    ****
 *********************************
 */
 
