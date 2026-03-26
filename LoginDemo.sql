@@ -98,7 +98,7 @@ GO
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON [dbo].[TblDepts] TO [User1];
 GO
--- c. Grant IMPERSONATE (Trun EXECUTE AS)
+-- c. Grant IMPERSONATE (To run EXECUTE AS)
 USE master;
 GO
 GRANT IMPERSONATE ON LOGIN::[User2] TO [User1];
@@ -110,7 +110,7 @@ GO
 GRANT SELECT, INSERT, UPDATE 
 ON [dbo].[TblDepts] TO [User2];
 GO
--- e. Grant IMPERSONATE (Trun EXECUTE AS)
+-- e. Grant IMPERSONATE (To run EXECUTE AS)
 USE master;
 GO
 GRANT IMPERSONATE ON LOGIN::[User1] TO [User2];
