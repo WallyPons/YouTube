@@ -30,5 +30,5 @@ SELECT * FROM ##RowCounts Order by [RowCount] DESC;
 -- Don't forget to download a copy of this and other 
 -- scripts from my Github repo, please check the link and 
 -- name of the file on the video description. 
--- This and -- other solutions are given "AS IS" under 
--- no warranty or claim.
+-- This and other solutions are given "AS IS" under no
+-- warranty or claim.
