@@ -24,7 +24,7 @@ ORDER BY SCHEMA_NAME(sOBJ.schema_id), sOBJ.name;
 -- 4. Insert the dynamic query results on temp table
 INSERT INTO ##RowCounts (TableName, [RowCount])
 EXEC sp_executesql @QueryString;
--- 5. Run a select on the inserted results on ##RowCounts
+-- 5. Run a select on the inserted results from ##RowCounts
 SELECT * FROM ##RowCounts Order by [RowCount] DESC;
 
 -- Don't forget to download a copy of this and other 
