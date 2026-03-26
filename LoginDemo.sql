@@ -37,7 +37,7 @@ GO
 ALTER TABLE [LoginTestingDemo].[dbo].[TblDepts] 
 ADD CONSTRAINT [DF_TblDepts_Locked_Bit]  
 DEFAULT ((0)) FOR [Locked];
--- d. CreatedBy
+-- d. CreatedBy picks current user
 ALTER TABLE [LoginTestingDemo].[dbo].[TblDepts] 
 ADD CONSTRAINT [DF_TblDepts_CreatedBy]  
 DEFAULT (SUSER_NAME()) FOR [CreatedBy];
@@ -70,7 +70,6 @@ WITH PASSWORD = N'S0m3$81BG9@27r97y',
 
 -- 4. Create database users (user mapping)
 -- a. Change database connection scope
-
 USE [LoginTestingDemo];
 GO
 
@@ -99,7 +98,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 ON [dbo].[TblDepts] TO [User1];
 GO
 -- c. Grant IMPERSONATE (To run EXECUTE AS)
-USE master;
+USE [master];
 GO
 GRANT IMPERSONATE ON LOGIN::[User2] TO [User1];
 GO
@@ -111,7 +110,7 @@ GRANT SELECT, INSERT, UPDATE
 ON [dbo].[TblDepts] TO [User2];
 GO
 -- e. Grant IMPERSONATE (To run EXECUTE AS)
-USE master;
+USE [master];
 GO
 GRANT IMPERSONATE ON LOGIN::[User1] TO [User2];
 GO
@@ -124,7 +123,7 @@ USE [LoginTestingDemo];
 GO
 EXECUTE AS LOGIN = 'User1';
 
--- c. Insert one row
+-- c. Insert two rows
 INSERT INTO 
 [LoginTestingDemo].[dbo].[TblDepts]
 (Company_Id, Dept_Id, Dept_Desc)
@@ -136,7 +135,8 @@ VALUES
 Select 
     Id, 
     Company_Id, 
-    Dept_Id, 
+    Dept_Id,
+    Dept_Desc,
     Dept_Notes, 
     Locked, 
     CreatedBy
@@ -162,7 +162,8 @@ VALUES
 Select 
     Id, 
     Company_Id, 
-    Dept_Id, 
+    Dept_Id,
+    Dept_Desc,
     Dept_Notes, 
     Locked, 
     CreatedBy
@@ -172,7 +173,8 @@ From [LoginTestingDemo].[dbo].[TblDepts];
 Select SUSER_NAME() AS CurrentUser;
 
 -- k. Test DELETE, it should be denied
-DELETE FROM [LoginTestingDemo].[dbo].[TblDepts]
+DELETE FROM 
+[LoginTestingDemo].[dbo].[TblDepts]
 WHERE Dept_Id = 1;
 
 
@@ -197,37 +199,37 @@ WHERE Dept_Id = 1;
 DROP Logins and Users
 -----------------------
 -- 1. Delete SQL logins
-USE [master]
+USE [master];
 GO
 
 -- a. User1
 REVOKE IMPERSONATE ON LOGIN::[User1] FROM [User2];
 GO
 
-DROP LOGIN [User1]
+DROP LOGIN [User1];
 GO
 
 -- b. User2
 REVOKE IMPERSONATE ON LOGIN::[User2] FROM [User1];
 GO
 
-DROP LOGIN [User2]
+DROP LOGIN [User2];
 GO
 
 -- 2. Delete database users
-USE [LoginTestingDemo]
+USE [LoginTestingDemo];
 GO
 
 -- a. User 1
-DROP USER [User1]
+DROP USER [User1];
 GO
 
 -- b. User 2
-DROP USER [User2]
+DROP USER [User2];
 GO
 
 -- 3. Drop database
-USE [master]
+USE [master];
 GO
 
 DROP DATABASE [LoginTestingDemo];
@@ -238,8 +240,7 @@ Note:
 and kill some connections that 
 could be open
 
-2. Use a different connection user
-with higher privileges. otherwise
-you won't be able to drop the
-database.
+2. Use a different connection with higher 
+privileges. otherwise you won't be able 
+to drop logins/users or the database.
 */ 
