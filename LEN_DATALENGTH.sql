@@ -15,7 +15,7 @@ DATALENGTH(@MyNVarchar30) AS [DATALENGTH and NVARCHAR];
 Key differences:
 ----------------------------------
 1. LEN() will always: 
-	a. Measures in characters
+	a. Measure in characters
 	b. Exclude trailing spaces
 
 2. DATALENGTH() will always:
