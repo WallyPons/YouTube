@@ -1,32 +1,24 @@
 -- Comparing LEN and DATALENGTH functions
 -- 1. Declare two variables
-DECLARE @MyVarchar30 VARCHAR(30) 
-	SET @MyVarchar30 = 'Something' 
-DECLARE @MyNVarchar30 NVARCHAR(30) 
-	SET @MyNVarchar30 = 'Something' 
+DECLARE @MyVarchar30 VARCHAR(30) = 'Something';
+DECLARE @MyNVarchar30 NVARCHAR(30) = 'Something';
 
 -- 2. String function: LEN
-SELECT LEN(@MyVarchar30) 
-	AS [LEN and VARCHAR];
-
-SELECT LEN(@MyNVarchar30) 
-	AS [LEN and NVARCHAR];
+SELECT LEN(@MyVarchar30) AS [LEN and VARCHAR],
+LEN(@MyNVarchar30) AS [LEN and NVARCHAR];
 
 -- 3. System Scalar function: DATALENGTH
-SELECT DATALENGTH(@MyVarchar30) 
-	AS [DATALENGTH and VARCHAR];
-
-SELECT DATALENGTH(@MyNVarchar30) 
-	AS [DATALENGTH and NVARCHAR];
+SELECT DATALENGTH(@MyVarchar30) AS [DATALENGTH and VARCHAR], 
+DATALENGTH(@MyNVarchar30) AS [DATALENGTH and NVARCHAR];
 
 /*
-Differences between both functions
+Key differences:
 ----------------------------------
 1. LEN() will always: 
 	a. Measures in characters
-	b. Excludes trailing spaces
+	b. Exclude trailing spaces
 
 2. DATALENGTH() will always:
-	a. Measures in bytes
+	a. Measure in bytes
 	b. Will consider spaces
 */
