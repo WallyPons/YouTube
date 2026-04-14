@@ -13,15 +13,14 @@ STRING_AGG(N'EXEC msdb.dbo.sp_update_job
             + name + N''', @enabled = 0;', 
             CHAR(13))
 FROM msdb.dbo.sysjobs;
-
--- 4. Print to verify
+-- 3. Print to verify
 PRINT @sql;
--- 5. Execute command
+-- 4. Execute command
 IF @sql IS NOT NULL
     EXEC sp_executesql @sql;
 GO
 
--- 6. Bonus: View enabled and disabled jobs
+-- 5. Bonus: View enabled and disabled jobs
 SELECT name, enabled FROM msdb.dbo.sysjobs
 -- a. To enable all jobs, just change the
 -- "@enabled = 0" to "@enabled = 1" on line 13
