@@ -1,17 +1,17 @@
 -- Use the database from where you want run the BCP Export
 -- Variable declarations
-DECLARE @FPath as varchar(256)
-DECLARE @FExtension as char(3)
-DECLARE @SQLcred as varchar(255)
-DECLARE @QOSelect as varchar(25)
-DECLARE @BCPpath as varchar(256)
-DECLARE @BCPExtension as char(3)
-DECLARE @BCPLogOut as varchar(256)
-DECLARE @BCPLogIn as varchar(256)
-DECLARE @BCPLogOutextension as char(3)
-DECLARE @BCPLogInextension as char(3)
-DECLARE @DestinationDB as varchar(128)
-DECLARE @BCPOptions as varchar(128)
+DECLARE @FPath AS varchar(256)
+DECLARE @FExtension AS char(3)
+DECLARE @SQLcred AS varchar(255)
+DECLARE @QOSelect AS varchar(25)
+DECLARE @BCPpath AS varchar(256)
+DECLARE @BCPExtension AS char(3)
+DECLARE @BCPLogOut AS varchar(256)
+DECLARE @BCPLogIn AS varchar(256)
+DECLARE @BCPLogOutextension AS char(3)
+DECLARE @BCPLogInextension AS char(3)
+DECLARE @DestinationDB AS varchar(128)
+DECLARE @BCPOptions AS varchar(128)
 
 -- Variable values
 SET @FPath = 'C:\BCP\DB_SOPORTE_IT\FormatFile'              -- Format file path
@@ -75,7 +75,7 @@ AS (SELECT db_name() AS Dbname,
            1, 1, '') AS COLUMN_NAME
 FROM sys.tables t
    )
-Select Dbname,
+SELECT Dbname,
        [schema_name],
        TABLE_NAME,
        COLUMN_NAME,
@@ -89,6 +89,6 @@ Select Dbname,
        + '_' + TABLE_NAME + '.' + @BCPExtension + '" -f "' + @FPath + '\' + schema_name + '_' + TABLE_NAME + '.'
        + @FExtension + '" -o "' + @BCPLogIn + '\' + schema_name + '_' + TABLE_NAME + '.' + @BCPLogInextension + '" '
        + @BCPOptions + ' ' + @SQLcred AS ImportBCP
-From CTE_Cols
+FROM CTE_Cols
 -- Where TABLE_NAME = '?' -- You can filter by one table, if needed.
-Order By TABLE_NAME ASC;
+ORDER BY TABLE_NAME ASC;
