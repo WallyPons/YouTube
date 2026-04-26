@@ -4,7 +4,7 @@ DBCC (Transact-SQL)
 The Transact-SQL programming language provides 
 DBCC statements that act as Database Console 
 Commands for SQL Server. Here you can see an
-example on how to Displays current query optimization 
+example on how to display current query optimization 
 statistics for a table or indexed view.
 */
 
