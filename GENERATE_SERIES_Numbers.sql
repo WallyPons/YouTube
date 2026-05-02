@@ -6,7 +6,7 @@ interval. The interval and the step between series
 values are defined by the user. Note: Compatibility 
 level 160 (SQL Server 2022 and up only)
 */
--- 1. Create a calendar table to store dates
+-- 1. Create a numbers table to store values
 CREATE TABLE [DB_DEMO].[dbo].[Numbers2026]
 (Number INT, Completed bit DEFAULT(0));
 
@@ -16,7 +16,7 @@ DECLARE @EndNum   INT;		-- INT variable
 SET @StartNum = 1;			-- Start number
 SET @EndNum   = 5000;	    -- End number
 
--- 3. Insert the date range into the calendar table
+-- 3. Insert the number range into the numbers table
 INSERT INTO [DB_DEMO].[dbo].[Numbers2026] 
 (Number) -- Insert into a single column
 SELECT value FROM GENERATE_SERIES
