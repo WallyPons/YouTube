@@ -27,6 +27,9 @@ DBCC TRACEON (3226, -1);
 DBCC TRACEON (2562,2549, -1);
 -- c. Enables compression during AG automatic seeding
 DBCC TRACEON (9567, -1);
+-- Query Store
+-- a. Enables asynchronous load of Query Store.
+DBCC TRACEON (7752, -1);
 -- Note: -1 Sets the specified trace flags globally.
 /*
 Don't forget to download a copy of this and other 
