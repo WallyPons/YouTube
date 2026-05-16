@@ -15,7 +15,7 @@ INSERT INTO #DIRFiles
 
 -- b. Execute DIR against a directory (C:\WINDOWS)
 -- You can provide a different directory or path
-EXECUTE xp_cmdshell 'DIR C:\WINDOWS\ /b /a-d /on';
+EXECUTE xp_cmdshell 'DIR C:\WINDOWS /b /a-d /on';
 GO
 
 -- c. Disable xp_cmdshell
