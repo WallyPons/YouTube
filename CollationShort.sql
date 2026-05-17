@@ -16,15 +16,15 @@ AS = Accent Sensitive
 -- a. Instance Level
 SELECT SERVERPROPERTY('Collation') 
     AS Current_Server_Collation;
--- b. Database level
+-- b. Database level (specific database)
 SELECT DATABASEPROPERTYEX('master', 'Collation') 
     AS DB_Collation;
--- c. By table columns (specify a table and use Database)
+-- c. By table columns (specific table)
 SELECT name, collation_name
 FROM sys.columns
 WHERE object_id = OBJECT_ID('DDL_AuditLog_Server');
 
--- 2. List all collations by name and description
+-- 2. List all SQL collations by name and description
 SELECT *
 FROM fn_helpcollations()
 
