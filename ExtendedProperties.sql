@@ -26,7 +26,7 @@ EXEC [DB_DEMO]. -- Database
 @name = N'MS_Description' -- The name of the property
 GO
 
--- 4. View extended properties for a databse
+-- 4. View extended properties for a database
 SELECT * FROM [DB_DEMO].  -- Database name
 [sys]. -- Schema
 [extended_properties] -- Returns a row for each extended property
